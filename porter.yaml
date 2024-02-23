@@ -30,9 +30,9 @@ dockerfile: template.Dockerfile
 mixins:
   - FabricMixin
 
-credentials:
-  - name: FABRIC_TOKEN
-    env: FABRIC_TOKEN
+# credentials:
+#   - name: FABRIC_TOKEN
+#     env: FABRIC_TOKEN
        
 
 # outputs:
@@ -62,7 +62,7 @@ parameters:
 # Define the steps that should execute when the bundle is installed
 install:
   - FabricMixin:
-      token : ${ bundle.credentials.FABRIC_TOKEN }
+      token : ${ bundle.parameters.token }
       capacityId: ${ bundle.parameters.capacityId }
       displayName: ${ bundle.parameters.workspaceDisplayName }
       description : ${ bundle.parameters.workspaceDescription }
@@ -70,7 +70,7 @@ install:
         - name: "ID"
           key: "ID"
   - FabricMixin:
-      token : ${ bundle.credentials.FABRIC_TOKEN }
+      token : ${ bundle.parameters.token }
       workspaceId: ${ bundle.outputs.ID }
       displayName: ${ bundle.parameters.itemDisplayName }
       type: ${ bundle.parameters.itemType }
