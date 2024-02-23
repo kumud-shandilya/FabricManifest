@@ -1,0 +1,92 @@
+# This is the configuration for Porter
+# You must define steps for each action, but the rest is optional
+# See https://getporter.org/bundle/manifest/file-format/ for a description of all the allowed fields in this document.
+# See https://getporter.org/author-bundles for documentation on how to configure your bundle.
+# Uncomment out the sections below to take full advantage of what Porter can do!
+
+# Optional indicator of the resource type of this file
+schemaType: Bundle
+
+# Version of the porter.yaml schema used by this file.
+schemaVersion: 1.0.1
+
+# Name of the bundle
+name: fabric-bundle_unified_new_test
+
+# Version of the bundle. Change this each time you modify a published bundle.
+version: 0.1.0
+
+# Description of the bundle and what it does.
+description: "An example Porter configuration"
+
+# Registry where the bundle is published to by default
+registry: "localhost:5000"
+
+# If you want to customize the Dockerfile in use, uncomment the line below and update the referenced file. 
+# See https://getporter.org/bundle/custom-dockerfile/
+dockerfile: template.Dockerfile
+
+# Declare and optionally configure the mixins used by the bundle
+mixins:
+  - FabricMixin
+
+credentials:
+  - name: FABRIC_TOKEN
+    env: FABRIC_TOKEN
+       
+
+# outputs:
+#   - name: ID
+#     type: string
+#     sensitive: false
+#     applyTo:
+#       - install
+
+parameters: 
+  - name: token
+    type: string
+  - name: workspaceDisplayName
+    type: string
+  - name: workspaceDescription
+    type: string
+  - name: capacityId
+    type: string
+  - name: itemDisplayName
+    type: string
+  - name: itemType
+    type: string
+  - name: workspaceId
+    type: string
+
+
+# Define the steps that should execute when the bundle is installed
+install:
+  - FabricMixin:
+      token : ${ bundle.credentials.FABRIC_TOKEN }
+      capacityId: ${ bundle.parameters.capacityId }
+      displayName: ${ bundle.parameters.workspaceDisplayName }
+      description : ${ bundle.parameters.workspaceDescription }
+      outputs:
+        - name: "ID"
+          key: "ID"
+  - FabricMixin:
+      token : ${ bundle.credentials.FABRIC_TOKEN }
+      workspaceId: ${ bundle.outputs.ID }
+      displayName: ${ bundle.parameters.itemDisplayName }
+      type: ${ bundle.parameters.itemType }
+  
+upgrade:
+  - FabricMixin: 
+      workspaceId: "qq"
+      token: "jj"
+      itemId: "d97a942a-fea6-4464-9456-e895d3e88042"
+      displayName: "updatedname1"
+      description: "Item's New description"
+
+# Define the steps that should execute when the bundle is uninstalled
+uninstall:
+  - FabricMixin: 
+      workspaceId: "pp"
+      token: "jj"
+      itemId: "ii"
+

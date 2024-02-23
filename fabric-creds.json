@@ -1,0 +1,13 @@
+{
+    "schemaType": "CredentialSet",
+    "schemaVersion": "1.0.1",
+    "name": "fabric-creds",
+    "credentials": [
+        {
+            "name": "FABRIC_TOKEN",
+            "source": {
+                "env": "FABRIC_TOKEN"
+            }
+        }
+    ]
+}
